@@ -1,4 +1,4 @@
-var personDAO = require('./personDAO2.js');
+var personDAO = require('./personDAO2');
 
 var personID = '';
 it('can verify creating person',function(done){

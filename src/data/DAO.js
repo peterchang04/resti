@@ -41,10 +41,12 @@ class DAO {
 		return new Remove(args,argDef).run(cb);
 	}
 
+	// every dao object has access to base save function this way
 	runSave(cb,args={},argDef={}){
 		return new Save(args,argDef).run(cb);
 	}
 
+	// any dao object has access to base remove function this way
 	runRemove(cb,args={},argDef={id:["int",true]}){
 		return new Remove(args,argDef).run(cb);
 	}
