@@ -16,7 +16,6 @@ class DAO {
 	}
 
 	query(cb, query, args = {}, argDef = {}){
-		console.log(args);
 		return new Query(query,args,argDef).run(cb);
 	}
 

@@ -14,12 +14,16 @@ it('Can instantiate Query and run save', (done) => {
 		last_name:['varchar',true],
 		email:['varchar',true]
 	});
-	s.run(function(res,err){
+	s.run(function(err,res){
+		if(err){
+			console.warn(err);
+			return done();
+		}
 		if(res.length == 1){
 			expect(res.length).toEqual(1);
 			id = res[0].id;
 		}
-		done();
+		return done();
 	});
 });
 
@@ -29,8 +33,12 @@ it('Can instantiate Query and run delete', (done) => {
 		table:"person",
 		id:id
 	});
-	r.run(function(res,err){
-		if(res.length == 1){
+	r.run(function(err,res){
+		if(err){
+			console.warn(err);
+			return done();
+		}
+		if(res.length === 1){
 			expect(res.length).toEqual(1);
 		}
 		done();

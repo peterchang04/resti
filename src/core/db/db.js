@@ -6,7 +6,7 @@ var dbRequest = require('./request');
 var dbConfig = require('../../../config/conf').db;
 var Query = require('./query');
 
-var Connector = (function(){
+function Connector (){
 	var config = {
 		userName: dbConfig.username,
 		password: dbConfig.password,
@@ -52,13 +52,13 @@ var Connector = (function(){
 					if(_Connector.currentRequest.attempts < 2){
 						_Connector.requests.push(r);
 					} else{
-						console.log('DB executeStatement');
-						console.log(err);
-						r.cb([],err);
+						console.warn('DB executeStatement');
+						console.warn(err);
+						r.cb(err,null);
 					}
 				/* SUCCESS */
 				} else if(typeof r.cb === 'function'){
-					r.cb(_Connector.result,err);
+					r.cb(err,_Connector.result);
 				}
 				_Connector.currentRequest = null;
 				_Connector.tryRun();
@@ -105,7 +105,7 @@ var Connector = (function(){
 		_Connector.connected = true;
 		_Connector.tryRun();
 		if(err){
-			console.log(err);
+			console.warn(err);
 		}
 	});
 
@@ -118,6 +118,6 @@ var Connector = (function(){
 		Types:TYPES,
 		Connection:_Connector.connection
 	};
-})();
+};
 
-module.exports = Connector;
+module.exports = Connector();
