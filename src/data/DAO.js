@@ -2,15 +2,15 @@
 var Query = require('../core/db/query');
 var Save = require('../core/db/querySave');
 var Remove = require('../core/db/queryRemove');
-var err = require("../core/err");
+var Err = require("../core/err");
 
 class DAO {
 	constructor(table, argDef){
 		if(!table){
-			throw new err("DAO argument table is required", "argument error");
+			throw new Err("DAO argument table is required", "argument error");
 		}
 		if(!argDef){
-			throw new err("DAO argument argDef is required", "argument error");
+			throw new Err("DAO argument argDef is required", "argument error");
 		}
 		this.table = table; // expect to be set by child class
 		this.argDef = argDef; // expect to be set by child class
@@ -44,16 +44,16 @@ class DAO {
 	saveRelationships(cb, args={}){
 		// required args are: table, table_many, ${table}_id, ${table_many}_ids
 		if(!args.table){
-			throw new err("table is a required argument", "argument error");
+			throw new Err("table is a required argument", "argument error");
 		}
 		if(!args.table_many){
-			throw new err("table_many is a required argument", "argument error");
+			throw new Err("table_many is a required argument", "argument error");
 		}
 		if(!args[args.table + "_id"]){
-			throw new err(`${args.table}_id is a required argument`, "argument error");
+			throw new Err(`${args.table}_id is a required argument`, "argument error");
 		}
 		if(!(args.table_many+"_ids" in args)){
-			throw new err(`${args.table_many}_ids is a required argument`, "argument error");
+			throw new Err(`${args.table_many}_ids is a required argument`, "argument error");
 		}
 
 		// first clear
@@ -89,16 +89,16 @@ class DAO {
 	_saveRelationship(cb,args){
 		// required args are: table, table_many, ${table}_id, ${table_many}_id
 		if(!args.table){
-			throw new err("table is a required argument", "argument error");
+			throw new Err("table is a required argument", "argument error");
 		}
 		if(!args.table_many){
-			throw new err("table_many is a required argument", "argument error");
+			throw new Err("table_many is a required argument", "argument error");
 		}
 		if(!args[args.table+'_id']){
-			throw new err(`${args.table}_id is a required argument`, "argument error");
+			throw new Err(`${args.table}_id is a required argument`, "argument error");
 		}
 		if(!(args.table_many+ '_id' in args)){
-			throw new err(`${args.table_many}_id is a required argument`, "argument error");
+			throw new Err(`${args.table_many}_id is a required argument`, "argument error");
 		}
 
 		var argDef = {
@@ -117,13 +117,13 @@ class DAO {
 	_clearRelationships(cb,args){
 		// required args are: table, table_many, ${table}_id
 		if(!args.table){
-			throw new err("table is a required argument", "argument error");
+			throw new Err("table is a required argument", "argument error");
 		}
 		if(!args.table_many){
-			throw new err("table_many is a required argument", "argument error");
+			throw new Err("table_many is a required argument", "argument error");
 		}
 		if(!args[args.table+'_id']){
-			throw new err(`${args.table}_id is a required argument`, "argument error");
+			throw new Err(`${args.table}_id is a required argument`, "argument error");
 		}
 
 		var argDef = {

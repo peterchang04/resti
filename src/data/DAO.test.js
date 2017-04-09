@@ -1,9 +1,9 @@
 'use strict';
 var DAO = require('./DAO');
-var d;
+var D; // instance of dao
 
 it('can instantiate a new dao',() => {
-	d = new DAO('person',{
+	D = new DAO('person',{
 		id:["int",true],
 		first_name:["varchar",true],
 		middle_name:["varchar",false],
@@ -14,7 +14,7 @@ it('can instantiate a new dao',() => {
 
 var personID = '';
 it('Can run save', (done) => {
-	d.save((err,res) => {
+	D.save((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -42,7 +42,7 @@ it('Can save a relationship', (done) => {
 		person_id:personID,
 		instrument_id:"1"
 	}
-	d._saveRelationship((err,res) => {
+	D._saveRelationship((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -52,7 +52,7 @@ it('Can save a relationship', (done) => {
 });
 
 it('verify relationship', (done) => {
-	d.query((err,res) => {
+	D.query((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -73,7 +73,7 @@ it('Can clear relationships', (done) => {
 		table_many:"instrument",
 		person_id:personID
 	}
-	d._clearRelationships((err,res) => {
+	D._clearRelationships((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -84,7 +84,7 @@ it('Can clear relationships', (done) => {
 
 it('verify relationships cleared', (done) => {
 	expect.assertions(1);
-	d.query((err,res) => {
+	D.query((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -104,7 +104,7 @@ it('verify relationships cleared', (done) => {
 
 it('can save many relationships', (done) => {
 	expect.assertions(1);
-	d.saveRelationships((err,res) => {
+	D.saveRelationships((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -121,7 +121,7 @@ it('can save many relationships', (done) => {
 
 it('verify multiple added', (done) => {
 	expect.assertions(1);
-	d.query((err,res) => {
+	D.query((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -140,7 +140,7 @@ it('verify multiple added', (done) => {
 });
 
 it('Can run Remove', (done) => {
-	d.remove((err,res) => {
+	D.remove((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();

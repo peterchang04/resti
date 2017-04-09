@@ -8,8 +8,7 @@
 * scripts // build scripts, test scripts, dev scripts
 
 ### TODO ###
-* add 'use strict' to all files
-* fix variable casing on all files, fix casing on auth.js
+* add a request parser to direct requests to appropriate service
 * setup first service api for person
 * connect service layer to rest
 * setup front end proxy to backend
@@ -22,6 +21,8 @@
 * add server logging
 
 ### DONE ###
+* fix variable casing on all files, fix casing on auth.js
+* add 'use strict' to all files
 * switch pattern to (err,res)
 * create and use err class
 * create DAO parent class

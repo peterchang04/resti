@@ -1,6 +1,6 @@
 'use strict';
-var personDAO = require('../data/personDAO');
+var PersonDAO = require('../data/personDAO');
 
 module.exports = {
-
+	
 };

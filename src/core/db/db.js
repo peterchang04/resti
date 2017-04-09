@@ -7,7 +7,7 @@ var dbRequest = require('./request');
 var dbConfig = require('../../../config/conf').db;
 var Query = require('./query');
 
-function Connector (){
+function connect (){
 	var config = {
 		userName: dbConfig.username,
 		password: dbConfig.password,
@@ -16,42 +16,42 @@ function Connector (){
 		options: dbConfig.options
 	};
 
-	var _Connector = {
+	var _connector = {
 		connected:false,
 		currentRequest:null, // the current dbRequest instance lives here until success or error callback
 		requests:[], // the queued up requests to run
 		connection:new Connection(config),
 		result:[],
 		tryRun:function(){
-			if(_Connector.requests.length > 0 && _Connector.connected && _Connector.currentRequest == null){
-				var r = _Connector.requests.shift();
+			if(_connector.requests.length > 0 && _connector.connected && _connector.currentRequest == null){
+				var r = _connector.requests.shift();
 
 				//console.log('TRY '+s.text);
-				_Connector.executeStatement(r);
+				_connector.executeStatement(r);
 			}
 		},
 		addRequest:function(text,params,cb){
 			var s = new dbRequest(text,params,cb);
-			_Connector.requests.push(s);
+			_connector.requests.push(s);
 
 			//console.log('QUEUE ' + text);
-			_Connector.tryRun();
+			_connector.tryRun();
 		},
 		getRequests:function(){
 			return this.requests;
 		},
 		executeStatement:function(r){
 			r.attempts++;
-			_Connector.currentRequest = r;
-			//console.log('RUN ' + _Connector.currentRequest.text);
-			_Connector.result = [];
+			_connector.currentRequest = r;
+			//console.log('RUN ' + _connector.currentRequest.text);
+			_connector.result = [];
 
 			var request = new Request(r.text, function(err) {
 				/* ERROR */
 				if(err){
 					err.text = r.text;
-					if(_Connector.currentRequest.attempts < 2){
-						_Connector.requests.push(r);
+					if(_connector.currentRequest.attempts < 2){
+						_connector.requests.push(r);
 					} else{
 						console.warn('DB executeStatement');
 						console.warn(err);
@@ -59,10 +59,10 @@ function Connector (){
 					}
 				/* SUCCESS */
 				} else if(typeof r.cb === 'function'){
-					r.cb(err,_Connector.result);
+					r.cb(err,_connector.result);
 				}
-				_Connector.currentRequest = null;
-				_Connector.tryRun();
+				_connector.currentRequest = null;
+				_connector.tryRun();
 			});
 
 			request.on('row', function(columns) {
@@ -75,7 +75,7 @@ function Connector (){
 						column.value = (column.value) ? 1 : 0;
 					}
 				});
-				_Connector.result.push(rowData);
+				_connector.result.push(rowData);
 			});
 
 			// append any params
@@ -95,30 +95,30 @@ function Connector (){
 			});
 
 			// run it
-			_Connector.connection.execSql(request);  
+			_connector.connection.execSql(request);  
 		}
 	};
 
 	/* CONNECTION EVENTS */
-	_Connector.connection.on('connect', function(err) {  
+	_connector.connection.on('connect', function(err) {  
 		// If no error, then good to proceed.  
 		console.log("DB Connected");
-		_Connector.connected = true;
-		_Connector.tryRun();
+		_connector.connected = true;
+		_connector.tryRun();
 		if(err){
 			console.warn(err);
 		}
 	});
 
 	return {
-		run:_Connector.addRequest,
+		run:_connector.addRequest,
 		newID:function(){
 			var guid = Guid.create();
 			return guid+'';
 		},
 		Types:TYPES,
-		Connection:_Connector.connection
+		connection:_connector.connection
 	};
 };
 
-module.exports = Connector();
+module.exports = connect();

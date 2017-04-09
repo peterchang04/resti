@@ -38,7 +38,7 @@ it('correctly create paths',function(){
 });
 
 it('gets the correct resource',function(){
-	var resource = RL._getResource(["instrument","123"]);
+	var resource = RL._getResource(["person","123"]);
 	if(resource === null){
 		expect(resource).toEqual('not null');
 	}else{

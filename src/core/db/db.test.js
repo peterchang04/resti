@@ -1,13 +1,13 @@
 'use strict';
 var db = require('./db');
-var Types = require('tedious').TYPES;
+var TYPES = require('tedious').TYPES;
 
 it('Can add request and execute query', (done) => {
 	expect.assertions(1);
 	db.run( // addRequest()
 		'select top 5 * from person',
 		//['personID',Int,1],
-		[['personID',Types.Int,'1']],
+		[['personID',TYPES.Int,'1']],
 		function(err,res){
 			if(err){
 				console.warn(err);
@@ -31,7 +31,7 @@ it('test multiple queries will return', (done) => {
 	db.run(
 		'select top 1 * from person',
 		//['personID',Int,1],
-		[['personID',Types.Int,'1']],
+		[['personID',TYPES.Int,'1']],
 		function(err,res){
 			if(err){
 				console.warn(err);
@@ -48,7 +48,7 @@ it('test multiple queries will return', (done) => {
 	db.run(
 		'select top 2 * from person',
 		//['personID',Int,1],
-		[['personID',Types.Int,'1']],
+		[['personID',TYPES.Int,'1']],
 		function(err,res){
 			if(err){
 				console.warn(err);
@@ -65,7 +65,7 @@ it('test multiple queries will return', (done) => {
 	db.run(
 		'select top 3 * from person',
 		//['personID',Int,1],
-		[['personID',Types.Int,'1']],
+		[['personID',TYPES.Int,'1']],
 		function(err,res){
 			if(err){
 				console.warn(err);

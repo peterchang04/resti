@@ -1,6 +1,6 @@
 'use strict';
 /* Represents a query, with parametized values */
-var Types = require('tedious').TYPES;
+var TYPES = require('tedious').TYPES;
 var db = require('./db');
 
 class Query {
@@ -53,14 +53,14 @@ class Query {
 	_getType(str){
 		str = str.toLowerCase();
 		var Ts = {
-			int:Types.Int,
-			uniqueidentifier:Types.UniqueIdentifier,
-			guid:Types.UniqueIdentifier,
-			money:Types.Money,
-			decimal:Types.Decimal,
-			bit:Types.Bit,
-			datetime:Types.DateTime,
-			varchar:Types.VarChar
+			int:TYPES.Int,
+			uniqueidentifier:TYPES.UniqueIdentifier,
+			guid:TYPES.UniqueIdentifier,
+			money:TYPES.Money,
+			decimal:TYPES.Decimal,
+			bit:TYPES.Bit,
+			datetime:TYPES.DateTime,
+			varchar:TYPES.VarChar
 		};
 		let type = Ts[str];
 
