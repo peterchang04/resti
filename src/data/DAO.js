@@ -1,12 +1,12 @@
 var Query = require('../core/db/query');
 var Save = require('../core/db/querySave');
 var Remove = require('../core/db/queryRemove');
-var Err = require("../core/err");
+var err = require("../core/err");
 
 class DAO {
 	constructor(table, argDef){
 		if(!table){
-			throw "DAO argument table is required"
+			throw new err();
 		}
 		if(!argDef){
 			throw "DAO argument argDef is required"
@@ -38,6 +38,106 @@ class DAO {
 		// remove requires id
 		var argDef = {id:['int',true]};
 		return new Remove(args,argDef).run(cb);
+	}
+
+	saveRelationships(cb, args={}){
+		// required args are: table, table_many, ${table}_id, ${table_many}_ids
+		if(!args.table){
+			throw "table is a required argument";
+		}
+		if(!args.table_many){
+			throw "table_many is a required argument";
+		}
+		if(!args[args.table + "_id"]){
+			throw `${args.table}_id is a required argument`;
+		}
+		if(!(args.table_many+"_ids" in args)){
+			throw `${args.table_many}_ids is a required argument`;
+		}
+
+		// first clear
+		this._clearRelationships((err,res) => {
+			// loop and save instruments
+
+			var ids = args[args.table_many + "_ids"] || "";
+			var idArray = ids.split(',');
+			var count = 0;
+			idArray.forEach((manyId) => {
+				// setup args for save relationships
+				let saveRelationshipArgs = {
+					table:args.table,
+					table_many:args.table_many,
+					[args.table + "_id"]:args[args.table + "_id"],
+					[args.table_many + "_id"]:manyId
+				};
+				this._saveRelationship((err,res) => {
+					count++;
+					if(count >= idArray.length){
+						cb(err,res);
+					}
+				},saveRelationshipArgs);
+			});
+
+		},{
+			table:args.table,
+			table_many:args.table_many,
+			[args.table+'_id']:args[args.table + "_id"]
+		});
+	}
+
+	_saveRelationship(cb,args){
+		// required args are: table, table_many, ${table}_id, ${table_many}_id
+		if(!args.table){
+			throw "table is a required argument";
+		}
+		if(!args.table_many){
+			throw "table_many is a required argument";
+		}
+		if(!args[args.table+'_id']){
+			throw `${args.table}_id is a required argument`;
+		}
+		if(!(args.table_many+ '_id' in args)){
+			throw `${args.table_many}_id is a required argument`;
+		}
+
+		var argDef = {
+			[args.table+"_id"]:["int",true],
+			[args.table_many+"_id"]:["int",false]
+		};
+		
+		var saveArgs = {
+			table:args.table + '_' + args.table_many,
+			[args.table+'_id']:args[args.table+'_id'],
+			[args.table_many+'_id']:args[args.table_many+'_id']
+		};
+		return new Save(saveArgs,argDef).run(cb);
+	}
+
+	_clearRelationships(cb,args){
+		// required args are: table, table_many, ${table}_id
+		if(!args.table){
+			throw "table is a required argument";
+		}
+		if(!args.table_many){
+			throw "table_many is a required argument";
+		}
+		if(!args[args.table+'_id']){
+			throw `${args.table}_id is a required argument`;
+		}
+
+		var argDef = {
+			[args.table+"_id"]:["int",true]
+		}
+		var queryText = `
+			update ${args.table}_${args.table_many}
+			set active = 0
+			where active = 1
+			and ${args.table}_id = ${args[args.table+'_id']}
+		`;
+		// remove table from args so it doesn't turn into a query param
+		delete args.table;
+		delete args.table_many;
+		return new Query(queryText,args,argDef).run(cb);
 	}
 
 	// every dao object has access to base save function this way

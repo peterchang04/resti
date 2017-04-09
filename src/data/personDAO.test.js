@@ -21,24 +21,20 @@ it('can create person',(done) => {
 	});
 });
 
-it('can save instrument',(done) => {
-	personDAO.saveInstrument((err,res) => {
-		expect.assertions(1);
+it('can save instruments',(done) => {
+	personDAO.saveInstruments((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
 		}
-		if(res.length === 1){
-			expect(res.length).toEqual(1);
-		}
-		return done();
+		done();
 	},{
 		person_id:personID,
-		instrument_id:1
+		instrument_ids:'3,4'
 	});
 });
 
-it('can verify created person + instrument',(done) => {
+it('can verify created person + instruments',(done) => {
 	personDAO.get((err,res) => {
 		expect.assertions(1);
 		if(err){
@@ -46,7 +42,7 @@ it('can verify created person + instrument',(done) => {
 			return done();
 		}
 		if(res.length === 1
-			&& res[0].instrument_ids === '1'
+			&& res[0].instrument_ids === '3,4'
 			&& res[0].first_name === 'Test_First'
 			&& res[0].middle_name === 'Test_Middle'
 			&& res[0].last_name === "Test_L'ast"
@@ -61,17 +57,16 @@ it('can verify created person + instrument',(done) => {
 });
 
 it('can clear instruments',(done) => {
-	personDAO.clearInstruments((err,res)=>{
-		expect.assertions(1);
+	personDAO.saveInstruments((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
 		}
-		if(res.length === 1){
-			expect(res.length).toEqual(1);
-		}
-		return done();
-	},{person_id:personID});
+		done();
+	},{
+		person_id:personID,
+		instrument_ids:''
+	});
 });
 
 it('can verify cleared instruments',(done) => {
@@ -83,41 +78,10 @@ it('can verify cleared instruments',(done) => {
 		}
 		if(res.length === 1
 			&& res[0].instrument_ids === null
-		){
-			expect(res.length).toEqual(1);
-		}
-		return done();
-	},{
-		id:personID
-	});
-});
-
-it('can save multiple instruments',(done) => {
-	personDAO.saveInstruments((err,res) => {
-		expect.assertions(1);
-		if(err){
-			console.warn(err);
-			return done();
-		}
-		if(res.length === 1){
-			expect(res.length).toEqual(1);
-		}
-		return done();
-	},{
-		person_id:personID,
-		instrument_ids:"1,2"
-	});
-});
-
-it('can verify multiple instruments',(done) => {
-	personDAO.get((err,res) => {
-		expect.assertions(1);
-		if(err){
-			console.warn(err);
-			return done();
-		}
-		if(res.length === 1
-			&& res[0].instrument_ids === "1,2"
+			&& res[0].first_name === 'Test_First'
+			&& res[0].middle_name === 'Test_Middle'
+			&& res[0].last_name === "Test_L'ast"
+			&& res[0].email === 'test@test.com'
 		){
 			expect(res.length).toEqual(1);
 		}

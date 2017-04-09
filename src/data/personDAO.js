@@ -46,48 +46,15 @@ class PersonDAO extends DAO{
 		this.query(cb,queryText,args,argDef);
 	}
 
-	saveInstrument(cb,args){
-		args.table = "person_instrument";
-		var argDef = {
-			person_id:["int",true],
-			instrument_id:["int",true]
+	saveInstruments(cb,args){ // expects args.instrument_ids + args.person_id
+		var saveArgs = {
+			table:'person',
+			table_many:'instrument',
+			person_id:args.person_id,
+			instrument_ids:args.instrument_ids
 		};
-		this.runSave(cb,args,argDef);
-	}
 
-	saveInstruments(cb,args){
-		var instrument_ids = args.instrument_ids || '';
-		var instrument_id_array = instrument_ids.split(',');
-		var count = 0;
-		instrument_id_array.forEach((instrument_id) => {
-			this.saveInstrument((err,res) => {
-				count++;
-				if(count === instrument_id_array.length){
-					cb(err,res);
-				}
-			},
-			{
-				person_id:args.person_id,
-				instrument_id:instrument_id
-			});
-		});
-	}
-
-	clearInstruments(cb,args = {}){
-		var argDef = {
-			person_id:["int",true]
-		};
-		var queryText = `
-			update person_instrument
-			set active = 0
-			where active = 1
-			and person_id = ${args.person_id}
-
-			select * from person
-			where id = ${args.person_id}
-		`;
-
-		this.query(cb,queryText,args,argDef);
+		this.saveRelationships(cb,saveArgs);
 	}
 }
 
