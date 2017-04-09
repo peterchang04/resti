@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express');
 var restConf = require('../../config/conf').rest;
 var bodyParser = require('body-parser');

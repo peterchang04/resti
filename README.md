@@ -4,21 +4,30 @@
 * rest // backend core files
     * core // base logic files
     * data // Data access files, by entity. Accessible by services only
-    * services // api
+    * services // business logic, rest end points etc.
 * scripts // build scripts, test scripts, dev scripts
 
 ### TODO ###
+* add 'use strict' to all files
+* fix variable casing on all files, fix casing on auth.js
+* setup first service api for person
+* connect service layer to rest
+* setup front end proxy to backend
 * install NGINX
 * install TLS
 * configure PM2
-* setup front end proxy to backend
-* update daos to use crud based functions create remove update delete
-* connect service layer
 * tedious switch to connection pooling
 * add session jwt cookie
-* switch pattern to (err,res)
 * add error logging
 * add server logging
+
+### DONE ###
+* switch pattern to (err,res)
+* create and use err class
+* create DAO parent class
+* reorganize project directories to data + services + core
+* remove incorrect module patterns
+* create db access objects
 
 ### POSTPONED ###
 * integration with facebook auth

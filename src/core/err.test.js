@@ -1,3 +1,4 @@
+'use strict';
 var Error = require("./err");
 
 it('can instantiate an error',function(){

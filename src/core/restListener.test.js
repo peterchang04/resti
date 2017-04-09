@@ -1,3 +1,4 @@
+'use strict';
 var RL = null;
 
 it('takes a bit for RestListener to start listening',function(done){

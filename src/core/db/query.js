@@ -1,3 +1,4 @@
+'use strict';
 /* Represents a query, with parametized values */
 var Types = require('tedious').TYPES;
 var db = require('./db');

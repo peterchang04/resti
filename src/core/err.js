@@ -1,3 +1,4 @@
+'use strict';
 class Err extends Error{
 	constructor(message,name = "Error"){
 		super(message);

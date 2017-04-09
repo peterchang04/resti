@@ -1,3 +1,4 @@
+'use strict';
 var Save = require('./querySave');
 
 var personID = '';

@@ -1,3 +1,4 @@
+'use strict';
 var Query = require('../core/db/query');
 var Save = require('../core/db/querySave');
 var Remove = require('../core/db/queryRemove');

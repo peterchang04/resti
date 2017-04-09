@@ -1,3 +1,4 @@
+'use strict';
 var jwt = require('jsonwebtoken');
 var moment = require("moment");
 var secret = require('../../config/conf').jwtSecret;

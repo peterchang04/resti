@@ -1,3 +1,4 @@
+'use strict';
 /* Represents a query request queued for running */
 class Request {
 	constructor(text,params,cb){

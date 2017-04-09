@@ -1,3 +1,4 @@
+'use strict';
 var Query = require('../core/db/query');
 
 module.exports = {

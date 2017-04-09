@@ -1,3 +1,4 @@
+'use strict';
 var Request = require('./request');
 
 it('Can instantiate a request object with callback',() => {

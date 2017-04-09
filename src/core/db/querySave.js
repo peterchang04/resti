@@ -1,3 +1,4 @@
+'use strict';
 var Query = require('./query');
 
 class Save extends Query{

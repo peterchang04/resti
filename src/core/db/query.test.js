@@ -1,3 +1,4 @@
+'use strict';
 var Query = require('./query');
 
 it('Can instantiate Query and run query', (done) => {
