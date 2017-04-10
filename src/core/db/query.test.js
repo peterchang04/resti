@@ -1,5 +1,5 @@
 'use strict';
-var Query = require('./query');
+var Query = require('./Query');
 
 it('Can instantiate Query and run query', (done) => {
 	var q = new Query('select top 5 * from person');

@@ -1,5 +1,5 @@
 'use strict';
-var Request = require('./request');
+var Request = require('./Request');
 
 it('Can instantiate a request object with callback',() => {
 	var r = new Request('select * from user',{personID:1});

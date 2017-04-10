@@ -1,5 +1,5 @@
 'use strict';
-var Save = require('./querySave');
+var Save = require('./QuerySave');
 
 var personID = '';
 it('Can instantiate Query and run save', (done) => {

@@ -1,5 +1,5 @@
 'use strict';
-var Err = require("./err");
+var Err = require("./Err");
 
 it('can instantiate an error',function(){
 	expect.assertions(2);

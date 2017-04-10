@@ -1,5 +1,5 @@
 'use strict';
-var Query = require('./query');
+var Query = require('./Query');
 
 class Save extends Query{
 	constructor(args,argDef){

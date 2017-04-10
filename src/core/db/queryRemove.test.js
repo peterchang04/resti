@@ -1,6 +1,6 @@
 'use strict';
-var Remove = require('./queryRemove');
-var Save = require('./querySave');
+var Remove = require('./QueryRemove');
+var Save = require('./QuerySave');
 
 var id = '';
 it('Can instantiate Query and run save', (done) => {

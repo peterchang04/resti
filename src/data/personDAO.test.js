@@ -1,9 +1,9 @@
 'use strict';
-var personDAO = require('./personDAO');
+var PersonDAO = require('./PersonDAO');
 
 var personID = '';
 it('can create person',(done) => {
-	personDAO.save((err,res) => {
+	PersonDAO.save((err,res) => {
 		expect.assertions(1);
 		if(err){
 			console.warn(err);
@@ -23,7 +23,7 @@ it('can create person',(done) => {
 });
 
 it('can save instruments',(done) => {
-	personDAO.saveInstruments((err,res) => {
+	PersonDAO.saveInstruments((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -36,7 +36,7 @@ it('can save instruments',(done) => {
 });
 
 it('can verify created person + instruments',(done) => {
-	personDAO.get((err,res) => {
+	PersonDAO.get((err,res) => {
 		expect.assertions(1);
 		if(err){
 			console.warn(err);
@@ -58,7 +58,7 @@ it('can verify created person + instruments',(done) => {
 });
 
 it('can clear instruments',(done) => {
-	personDAO.saveInstruments((err,res) => {
+	PersonDAO.saveInstruments((err,res) => {
 		if(err){
 			console.warn(err);
 			return done();
@@ -71,7 +71,7 @@ it('can clear instruments',(done) => {
 });
 
 it('can verify cleared instruments',(done) => {
-	personDAO.get((err,res) => {
+	PersonDAO.get((err,res) => {
 		expect.assertions(1);
 		if(err){
 			console.warn(err);
@@ -93,7 +93,7 @@ it('can verify cleared instruments',(done) => {
 });
 
 it('can remove person',(done) => {
-	personDAO.remove((err,res)=>{
+	PersonDAO.remove((err,res)=>{
 		expect.assertions(1);
 		if(err){
 			console.warn(err);
@@ -107,7 +107,7 @@ it('can remove person',(done) => {
 });
 
 it('can verifies querying removed person',function(done){
-	personDAO.get((err,res)=>{
+	PersonDAO.get((err,res)=>{
 		expect.assertions(1);
 		if(err){
 			console.warn(err);

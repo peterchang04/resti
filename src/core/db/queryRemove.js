@@ -1,5 +1,5 @@
 'use strict';
-var Query = require('./query');
+var Query = require('./Query');
 
 class Remove extends Query{
 	constructor(args,argDef = {id:["int",true]}){
