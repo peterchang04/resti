@@ -1,3 +1,4 @@
+'use strict';
 var ParsedRequest = require('./ParsedRequest');
 var blankRequest = new ParsedRequest('get','hello',{});
 var privateFunctions = blankRequest.getPrivateFunctions();
@@ -78,6 +79,16 @@ it('gets the correct resource',function(){
 
 it('fails gracefully with missing resource',function(){
 	var resource = privateFunctions.getResource(["llama","123"]);
+	if(resource === null){
+		expect(resource).toEqual(null);
+	}else{
+		expect(1).toEqual(0);
+	}
+});
+
+it('generates an appropriate error JSON',function(){
+	var err1 = privateFunctions.getErrorJSON();
+	var err2 = privateFunctions.getErrorJSON("my message","my detail");
 	if(resource === null){
 		expect(resource).toEqual(null);
 	}else{

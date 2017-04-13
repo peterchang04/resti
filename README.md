@@ -9,6 +9,9 @@
 
 ### TODO ###
 * add a request parser to direct requests to appropriate service
+* add better tests for restListener
+* add better tests for ParsedRequest
+* add pagination
 * setup first service api for person
 * connect service layer to rest
 * setup front end proxy to backend

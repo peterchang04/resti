@@ -1,3 +1,4 @@
+'use strict';
 var Err = require("./Err");
 var _ = require('lodash');
 
@@ -9,14 +10,24 @@ class ParsedRequest{
 		this.resource = getResource(this.pathArray);
 	}
 	getResults(cb){
-		console.log(this.pathArray,this.args,this.func,this.resource);
+		try{
+			this.resource[this.func]((err,res) => {
+				if(err){
+					return cb(400,getErrorJSON());
+				}
+				return cb(200,res);
+			},this.args);
+		}catch(e){
+			return cb(400,getErrorJSON());
+		}
 	}
 	getPrivateFunctions(){ // enable testing of private functions
 		return {
 			toPathArray:toPathArray,
 			toArgs:toArgs,
 			toFunc:toFunc,
-			getResource:getResource
+			getResource:getResource,
+			getErrorJSON:getErrorJSON
 		}
 	}
 }
@@ -116,10 +127,17 @@ function toFunc(method,pathArray,args = {}){
 function getResource(pathArray){
 	var resource = null;
 	try{
-		resource = require('../data/'+pathArray[0]+'DAO');
+		resource = require('../services/'+pathArray[0]+'Service');
 	}catch(e){
 		/* TODO: Should probably log this */
 		console.warn(e);
 	}
 	return resource;
+}
+
+function getErrorJSON(message = "Bad Request",detail = ""){
+	return {
+		message:message,
+		detail:detail
+	};
 }
